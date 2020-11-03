@@ -91,10 +91,10 @@ pipeline {
 			options { timeout(time: 30, unit: 'MINUTES') }
 			steps {
 				// Create link to directory with Redis binaries
-				sh 'ln -sf /work'
+				sh 'cwd=$(pwd)'
 
 				// Launch Redis in proper configuration
-				sh 'make start'
+				sh 'pushd / && make -f $cwd/Makefile start && popd'
 
 				// Execute maven test
 				sh 'MAVEN_OPTS="-Duser.name=jenkins -Duser.home=/tmp/jenkins-home" ./mvnw clean test -DrunLongTests=true -U -B'
@@ -103,7 +103,7 @@ pipeline {
 				sh 'RESULT=\$?'
 
 				// Shutdown Redis
-				sh 'make stop'
+				sh 'pushd / && make stop && popd'
 
 				// Return maven results
 				sh 'exit \$RESULT'
@@ -130,10 +130,10 @@ pipeline {
 					options { timeout(time: 30, unit: 'MINUTES') }
 					steps {
 						// Create link to directory with Redis binaries
-						sh 'ln -sf /work'
+						sh 'cwd=$(pwd)'
 
 						// Launch Redis in proper configuration
-						sh 'make start'
+						sh 'pushd / && make -f $cwd/Makefile start && popd'
 
 						// Execute maven test
 						sh 'MAVEN_OPTS="-Duser.name=jenkins -Duser.home=/tmp/jenkins-home" ./mvnw -Pjava11 clean test -U -B'
@@ -142,7 +142,7 @@ pipeline {
 						sh 'RESULT=\$?'
 
 						// Shutdown Redis
-						sh 'make stop'
+						sh 'pushd / && make stop && popd'
 
 						// Return maven results
 						sh 'exit \$RESULT'
@@ -160,10 +160,10 @@ pipeline {
 					options { timeout(time: 30, unit: 'MINUTES') }
 					steps {
 						// Create link to directory with Redis binaries
-						sh 'ln -sf /work'
+						sh 'cwd=$(pwd)'
 
 						// Launch Redis in proper configuration
-						sh 'make start'
+						sh 'pushd / && make -f $cwd/Makefile start && popd'
 
 						// Execute maven test
 						sh 'MAVEN_OPTS="-Duser.name=jenkins -Duser.home=/tmp/jenkins-home" ./mvnw -Pjava11 clean test -U -B'
@@ -172,7 +172,7 @@ pipeline {
 						sh 'RESULT=\$?'
 
 						// Shutdown Redis
-						sh 'make stop'
+						sh 'pushd / && make stop && popd'
 
 						// Return maven results
 						sh 'exit \$RESULT'
