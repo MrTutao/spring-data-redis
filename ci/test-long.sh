@@ -2,6 +2,8 @@
 
 set -euo pipefail
 
+rm -f work
+
 # Create link to directory with Redis binaries
 cwd=$(pwd)
 
