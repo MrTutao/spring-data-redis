@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x 
 
 set -euo pipefail
 
@@ -15,7 +15,7 @@ MAVEN_OPTS="-Duser.name=jenkins -Duser.home=/tmp/jenkins-home" ./mvnw clean test
 RESULT=$?
 
 # Shutdown Redis
-pushd / && make stop && popd
+pushd / && make -f $cwd/Makefile stop && popd
 
 # Return maven results
 exit $RESULT
