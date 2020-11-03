@@ -90,26 +90,7 @@ pipeline {
 			}
 			options { timeout(time: 30, unit: 'MINUTES') }
 			steps {
-				sh 'bash'
-
-				// Create link to directory with Redis binaries
-				sh 'cwd=$(pwd)'
-
-				// Launch Redis in proper configuration
-				sh 'pushd / && make -f $cwd/Makefile start && popd'
-
-				// Execute maven test
-				sh 'MAVEN_OPTS="-Duser.name=jenkins -Duser.home=/tmp/jenkins-home" ./mvnw clean test -DrunLongTests=true -U -B'
-
-				// Capture resulting exit code from maven (pass/fail)
-				sh 'RESULT=\$?'
-
-				// Shutdown Redis
-				sh 'pushd / && make stop && popd'
-
-				// Return maven results
-				sh 'exit \$RESULT'
-
+				sh 'ci/test-long.sh'
 			}
 		}
 
@@ -131,26 +112,7 @@ pipeline {
 					}
 					options { timeout(time: 30, unit: 'MINUTES') }
 					steps {
-						sh 'bash'
-
-						// Create link to directory with Redis binaries
-						sh 'cwd=$(pwd)'
-
-						// Launch Redis in proper configuration
-						sh 'pushd / && make -f $cwd/Makefile start && popd'
-
-						// Execute maven test
-						sh 'MAVEN_OPTS="-Duser.name=jenkins -Duser.home=/tmp/jenkins-home" ./mvnw -Pjava11 clean test -U -B'
-
-						// Capture resulting exit code from maven (pass/fail)
-						sh 'RESULT=\$?'
-
-						// Shutdown Redis
-						sh 'pushd / && make stop && popd'
-
-						// Return maven results
-						sh 'exit \$RESULT'
-
+						sh 'ci/test.sh'
 					}
 				}
 				stage("test: baseline (jdk15)") {
@@ -163,26 +125,7 @@ pipeline {
 					}
 					options { timeout(time: 30, unit: 'MINUTES') }
 					steps {
-						sh 'bash'
-
-						// Create link to directory with Redis binaries
-						sh 'cwd=$(pwd)'
-
-						// Launch Redis in proper configuration
-						sh 'pushd / && make -f $cwd/Makefile start && popd'
-
-						// Execute maven test
-						sh 'MAVEN_OPTS="-Duser.name=jenkins -Duser.home=/tmp/jenkins-home" ./mvnw -Pjava11 clean test -U -B'
-
-						// Capture resulting exit code from maven (pass/fail)
-						sh 'RESULT=\$?'
-
-						// Shutdown Redis
-						sh 'pushd / && make stop && popd'
-
-						// Return maven results
-						sh 'exit \$RESULT'
-
+						sh 'ci/test.sh'
 					}
 				}
 			}
