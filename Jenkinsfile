@@ -90,6 +90,8 @@ pipeline {
 			}
 			options { timeout(time: 30, unit: 'MINUTES') }
 			steps {
+				sh 'bash'
+
 				// Create link to directory with Redis binaries
 				sh 'cwd=$(pwd)'
 
@@ -129,6 +131,8 @@ pipeline {
 					}
 					options { timeout(time: 30, unit: 'MINUTES') }
 					steps {
+						sh 'bash'
+
 						// Create link to directory with Redis binaries
 						sh 'cwd=$(pwd)'
 
@@ -159,6 +163,8 @@ pipeline {
 					}
 					options { timeout(time: 30, unit: 'MINUTES') }
 					steps {
+						sh 'bash'
+
 						// Create link to directory with Redis binaries
 						sh 'cwd=$(pwd)'
 
